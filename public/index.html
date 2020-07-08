@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>test</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
+        }
+
+        .textkey {
+            padding: 10px 10px 10px 10px;
+            background-color: black;
+            text-align: center;
+            height: 15px;
+            width: 5%;
+            position: relative;
+            display: inline-block;
+            color: white;
+            -webkit-user-select: none;
+            margin-bottom: 5px;
+        }
+
+        .textkey:hover {
+            background-color: white;
+            color: black;
+            -webkit-user-select: none;
+        }
+
+        .big {
+            width: 10%;
+        }
+        .large {
+            width: 15%;
+        }
+        #row-one {
+            padding-left: 5%;
+        }
+        #row-two{
+            padding-left: 2%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="keyboard">
+        <div class="row" id="row-one">
+            <div id="q" onclick="keyclick('q', false)" class="textkey textkeys">q</div>
+            <div id="w" onclick="keyclick('w', false)" class="textkey testkeys">w</div>
+            <div id="e" onclick="keyclick('e', false)" class="textkey textkeys">e</div>
+            <div id="r" onclick="keyclick('r', false)" class="textkey tesxtkeys">r</div>
+            <div onclick="keyclick('t', false)" class="textkey">t</div>
+            <div onclick="keyclick('y', false)" class="textkey">y</div>
+            <div onclick="keyclick('u', false)" class="textkey">u</div>
+            <div onclick="keyclick('i', false)" class="textkey">i</div>
+            <div onclick="keyclick('o', false)" class="textkey">o</div>
+            <div onclick="keyclick('p', false)" class="textkey">p</div>
+        </div>
+        <div class="row" id="row-two">
+            <div onclick="keyclick('a', false)" class="textkey">a</div>
+            <div onclick="keyclick('s', false)" class="textkey">s</div>
+            <div onclick="keyclick('d', false)" class="textkey">d</div>
+            <div onclick="keyclick('f', false)" class="textkey">f</div>
+            <div onclick="keyclick('g', false)" class="textkey">g</div>
+            <div onclick="keyclick('h', false)" class="textkey">h</div>
+            <div onclick="keyclick('j', false)" class="textkey">j</div>
+            <div onclick="keyclick('k', false)" class="textkey">k</div>
+            <div onclick="keyclick('l', false)" class="textkey">l</div>
+        </div>
+        <div class="row" id="row-three">
+            <div onclick="keyclick('shift', 'shift')" class="big textkey">shift</div>
+            <div onclick="keyclick('z', false)" class="textkey">z</div>
+            <div onclick="keyclick('x', false)" class="textkey">x</div>
+            <div onclick="keyclick('c', false)" class="textkey">c</div>
+            <div onclick="keyclick('v', false)" class="textkey">v</div>
+            <div onclick="keyclick('b', false)" class="textkey">b</div>
+            <div onclick="keyclick('n', false)" class="textkey">n</div>
+            <div onclick="keyclick('m', false)" class="textkey">m</div>
+            <div onclick="keyclick('backspace', true)" class="big textkey">backspace</div>
+        </div>
+        <div class="row" id="row-four">
+            <div onclick="keyclick('123', 'page')" class="textkey">123</div>
+            <div onclick="keyclick('space', false)" class="textkey large">space</div>
+            <div onclick="keyclick('.', false)" class="textkey">.</div>
+            <div onclick="keyclick('!', false)" class="textkey">!</div>
+            <div onclick="keyclick('?', false)" class="textkey">?</div>
+            <div onclick="keyclick(':', false)" class="textkey">:</div>
+            <div onclick="keyclick('/', false)" class="textkey">/</div>
+            <div onclick="keyclick('enter', true)" class="textkey big">enter</div>
+        </div>
+    </div>
+    <input type="text" height="100" width="400" id="grabme"></input>
+    <script>
+        function keyclick(key, spec) {
+            if (spec === 'page') {
+                return;
+            } else if (spec === 'shift') {
+                return;
+            } else {
+                axios.post('/Mr-KeyLogger', {
+                    character: key, spec: spec
+                }).then(function (response) {
+                    console.log(response);
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+        };
+
+
+        $('#grabme').keydown(function (event) {
+            if (event.key === 'Backspace') {
+                axios.post('/Mr-KeyLogger', {
+                    character: 'backspace', spec: true
+                }).then(function (response) {
+                    console.log(response);
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            } else if (event.key === 'Enter') {
+                axios.post('/Mr-KeyLogger', {
+                    character: 'enter', spec: true
+                }).then(function (response) {
+                    console.log(response);
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+        });
+        $('#grabme').keypress(function (event) {
+            axios.post('/Mr-KeyLogger', {
+                character: event.key, spec: false
+            }).then(function (response) {
+                console.log(response);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        });
+
+    </script>
+</body>
+
+</html>
