@@ -1,6 +1,7 @@
 # phone-controler
 Use your phone to controll you pc.
 
+Note: DO NOT USE THIS ON ANY PUBLIC INTERNET CONNECTIONS AS ANYONE WITH YOUR COMPUTER IP CAN USE THIS (I am working on a login for secure use)
 
 # Fetures
 - Keyboard

