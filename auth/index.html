@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>test</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+    <style>
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            overflow: hidden;
+            background-color: black;
+            color: white;
+            text-align: center;
+        }
+        .trackpad {
+            width: 50px;
+            height: 100px;
+            background-color: gray;
+        }
+        .keyboard {
+            position: absolute;
+            bottom: 0;
+        }
+
+        .textkey {
+            padding: 10px 10px 15px 10px;
+            background-color: gray;
+            text-align: center;
+            height: 15px;
+            width: 15px;
+            position: relative;
+            display: inline-block;
+            color: white;
+            -webkit-user-select: none;
+            margin-bottom: 5px;
+        }
+
+        .textkey:hover {
+            background-color: lightgrey;
+            color: black;
+            -webkit-user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Keyboard</h1>
+    <p>Use this tect bot for custom text characters that are not provided by the html keyboard</p>
+    <input type="text" height="100" width="400" id="grabme"></input>
+    <!--<div class="trackpad"></div>-->
+    <div class="keyboard">
+        <div class="row" id="row-one">
+            <div id="q" onclick="keyclick('q', false)" class="textkey textkeys">q</div>
+            <div id="w" onclick="keyclick('w', false)" class="textkey testkeys">w</div>
+            <div id="e" onclick="keyclick('e', false)" class="textkey textkeys">e</div>
+            <div id="r" onclick="keyclick('r', false)" class="textkey tesxtkeys">r</div>
+            <div onclick="keyclick('t', false)" class="textkey">t</div>
+            <div onclick="keyclick('y', false)" class="textkey">y</div>
+            <div onclick="keyclick('u', false)" class="textkey">u</div>
+            <div onclick="keyclick('i', false)" class="textkey">i</div>
+            <div onclick="keyclick('o', false)" class="textkey">o</div>
+            <div onclick="keyclick('p', false)" class="textkey">p</div>
+        </div>
+        <div class="row" id="row-two">
+            <div onclick="keyclick('a', false)" class="textkey">a</div>
+            <div onclick="keyclick('s', false)" class="textkey">s</div>
+            <div onclick="keyclick('d', false)" class="textkey">d</div>
+            <div onclick="keyclick('f', false)" class="textkey">f</div>
+            <div onclick="keyclick('g', false)" class="textkey">g</div>
+            <div onclick="keyclick('h', false)" class="textkey">h</div>
+            <div onclick="keyclick('j', false)" class="textkey">j</div>
+            <div onclick="keyclick('k', false)" class="textkey">k</div>
+            <div onclick="keyclick('l', false)" class="textkey">l</div>
+        </div>
+        <div class="row" id="row-three">
+            <div onclick="keyclick('z', false)" class="textkey">z</div>
+            <div onclick="keyclick('x', false)" class="textkey">x</div>
+            <div onclick="keyclick('c', false)" class="textkey">c</div>
+            <div onclick="keyclick('v', false)" class="textkey">v</div>
+            <div onclick="keyclick('b', false)" class="textkey">b</div>
+            <div onclick="keyclick('n', false)" class="textkey">n</div>
+            <div onclick="keyclick('m', false)" class="textkey">m</div>
+            <div style="width: 30px;" onclick="keyclick('123', 'page')" class="textkey">123</div>
+            <div style="width: 50px;" onclick="keyclick('shift', 'shift')" class="big textkey">shift</div>
+        </div>
+        <div class="row" id="row-four">
+            <div style="width: 200px;" onclick="keyclick('space', true)" class="textkey large">space</div>
+            <div style="width: 30px;" onclick="keyclick('backspace', true)" class="big textkey">&lt;X</div>
+            <div style="width: 50px;" onclick="keyclick('enter', true)" class="textkey big">enter</div>
+        </div>
+        <div class="row" id="row-five">
+            <div onclick="keyclick('.', false)" class="textkey">.</div>
+            <div onclick="keyclick('!', false)" class="textkey">!</div>
+            <div onclick="keyclick('?', false)" class="textkey">?</div>
+            <div onclick="keyclick(':', false)" class="textkey">:</div>
+            <div onclick="keyclick('/', false)" class="textkey">/</div>
+        </div>
+    </div>
+    <div id="mouse-pos"></div>
+
+</body>
+<script>
+    $('.trackpad').mousemove(function (e) {
+        document.getElementById('mouse-pos').innerHTML = 'X ' + e.pageX + ' Y ' + e.pageY;
+    })
+    function keyclick(key, spec) {
+        if (spec === 'page') {
+            return;
+        } else if (spec === 'shift') {
+            return;
+        } else {
+            axios.post('/keyboard', {
+                character: key, spec: spec
+            }).then(function (response) {
+                console.log(response);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    };
+
+
+    $('#grabme').keydown(function (event) {
+        if (event.key === 'Backspace') {
+            axios.post('/keyboard', {
+                character: 'backspace', spec: true
+            }).then(function (response) {
+                console.log(response);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        } else if (event.key === 'Enter') {
+            axios.post('/keyboard', {
+                character: 'enter', spec: true
+            }).then(function (response) {
+                console.log(response);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    });
+    $('#grabme').keypress(function (event) {
+        axios.post('/keyboard', {
+            character: event.key, spec: false
+        }).then(function (response) {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        });
+    });
+
+</script>
+
+</html>
