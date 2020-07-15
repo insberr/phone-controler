@@ -11,9 +11,9 @@ You can use `?pass=THE_PASSWORD` at the endo ofthe url to login without the pass
   * Scroll
   * Left/Right click
   * Drag and drop
-*  [] Game Controller
+* [ ] Game Controller
   * Minecraft
-*  [] Possible computer controlls
+* [ ] Possible computer controlls
   * Volume
   * Power off
 
