@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Phone Controller</title>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		::-webkit-scrollbar {
+			display: none;
+		}
+
+		body {
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 30px;
+			background-color: black;
+			color: white;
+			overflow: hidden;
+			text-align: center;
+		}
+
+		#password {
+			background-color: gray;
+			border: 2px solid lightblue;
+			border-radius: 10px;
+			outline: none;
+			color: white;
+			width: 300px;
+			height: 50px;
+			font-size: 30px;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Phone Controler</h1>
+	<h3>Use your phone to control your PC</h3>
+	<span id="enterpwrd">Enter the password:</span>
+	<br>
+	<input type="text" id="password" autocomplete="current-password"></input>
+	<script>
+		function submitPassword(event) {
+			if (!event) return;
+			if (event !== 'Enter') return;
+
+			let pass = document.getElementById('password').value;
+			axios.post('/Password', {
+				password: pass
+			}).then(function (response) {
+				if (response.data.message === 'Incorrect password') {
+					var inco = document.getElementById('enterpwrd');
+					inco.style.color = 'red';
+					document.getElementById('password').style.color = 'red';
+					inco.innerHTML = response.data.message + ', Please enter the correct password';
+					return;
+				} else {
+					document.write(response.data);
+					console.log(response);
+				}
+			}).catch(function (error) {
+				console.log(error);
+			});
+
+		}
+		$('#password').keydown(function (event) {
+			let event = event.key;
+			submitPassword(event)
+		});
+	</script>
+</body>
+
+</html>
